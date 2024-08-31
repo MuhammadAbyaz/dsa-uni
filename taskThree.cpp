@@ -51,8 +51,8 @@ int main()
     MedianFinder medianFinder;
     medianFinder.addNumber(1);
     medianFinder.addNumber(2);
-    cout << medianFinder.findMedian();
+    cout << medianFinder.findMedian() << endl;
     medianFinder.addNumber(3);
-    cout << medianFinder.findMedian();
+    cout << medianFinder.findMedian() << endl;
     return 0;
 }

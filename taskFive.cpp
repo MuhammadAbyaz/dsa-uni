@@ -32,6 +32,9 @@ int main()
     int arr[][4] = {{1, 3, 5, 7}, {10, 11, 6, 20}, {23, 30, 34, 60}};
     cout
         << boolalpha
-        << twoDimensionalBinarySearch(arr, 5);
+        << twoDimensionalBinarySearch(arr, 5) << endl;
+    cout
+        << boolalpha
+        << twoDimensionalBinarySearch(arr, 2) << endl;
     return 0;
 }
