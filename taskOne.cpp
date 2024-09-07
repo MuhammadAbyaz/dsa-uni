@@ -36,7 +36,7 @@ public:
             for (int j = 0; j < nCols; ++j)
             {
                 int input;
-                cout << "Enter data for row" << i + 1 << " row and " << j + 1 << " column: ";
+                cout << "Enter data for " << i + 1 << " row and " << j + 1 << " column: ";
                 cin >> input;
                 row.push_back(input);
             }
@@ -117,6 +117,28 @@ public:
         }
         return result;
     }
+    void scalar_multiplication(int scalar)
+    {
+        for (int i = 0; i < nRows; ++i)
+        {
+            for (int j = 0; j < nCols; ++j)
+            {
+                data[i][j] *= scalar;
+            }
+        }
+    }
+    Matrix create_transpose()
+    {
+        Matrix res(nCols, nRows, false);
+        for (int i = 0; i < nRows; ++i)
+        {
+            for (int j = 0; j < nCols; ++j)
+            {
+                res.data[j][i] = data[i][j];
+            }
+        }
+        return res;
+    }
 };
 
 int main()
@@ -139,5 +161,8 @@ int main()
     Matrix m4 = m1 * m2;
     m3.print();
     m4.print();
+    m1.scalar_multiplication(2);
+    Matrix m5 = m1.create_transpose();
+    m5.print();
     return 0;
 }
