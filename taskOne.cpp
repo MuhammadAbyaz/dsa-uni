@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <unordered_map>
 using namespace std;
 template <typename T>
 
@@ -25,14 +24,10 @@ public:
 
     void push(T value)
     {
-        if (top < capacity)
-        {
-            stack[++top] = value;
+        if (top == capacity){
+            resize();
         }
-        else
-        {
-            cout << "Error: Stack overflow!! You can try calling resize function to resize the stack" << endl;
-        }
+        stack[++top] = value;
     }
 
     T pop()
@@ -85,11 +80,11 @@ public:
     {
         for (int i = top; i > -1; --i)
         {
-            cout << stack[i];
+            cout << stack[i]<< " ";
         }
     }
 
-    static std::string reverseString(string word)
+    static string reverseString(string word)
     {
         Abyaz_Lab03<char> stack;
         for (int i = 0; i < word.length(); ++i)
@@ -127,93 +122,96 @@ public:
         Abyaz_Lab03<char> sStack;
         Abyaz_Lab03<char> tStack;
 
+
         for (int i = 0; i < s.length(); ++i)
         {
             if (s[i] == '#' && !sStack.isEmpty())
             {
                 sStack.pop();
             }
+            else if (s[i] != '#')
+            {
+            sStack.push(s[i]); 
+            }
+        }
+        for (int i =0 ; i < t.length(); ++i){
             if (t[i] == '#' && !tStack.isEmpty())
             {
                 tStack.pop();
             }
-            else
+            else if (t[i] != '#')
             {
-
-                sStack.push(s[i]);
-                tStack.push(t[i]);
+            tStack.push(t[i]); 
             }
         }
 
-        if (sStack.size() != t.size())
+        if (sStack.size() != tStack.size())
         {
             return false;
         }
         while (!sStack.isEmpty() && !tStack.isEmpty())
         {
-            if (sStack.pop() != tStack.pop())
-                return false;
+            char sValue = sStack.pop();
+            char tValue = tStack.pop();
+            if (sValue != tValue){return false;}
         }
         return true;
     }
-    static void fibonacciGenerator(int n)
+    static int fibonacciGenerator(int n)
     {
-        if (n <= 1)
-        {
-            cout << n << endl;
+        if (n <= 1){
+            return n;
         }
-        Abyaz_Lab03<int> fibonacciStack;
-        int first = 0;
-        int result = 0;
-        int second = 1;
-        fibonacciStack.push(0);
-        fibonacciStack.push(1);
-        for (int i = 2; i <= n; ++i)
-        {
-            result = first + second;
-            fibonacciStack.push(result);
-            first = second;
-            second = result;
-        }
-        while (!fibonacciStack.isEmpty())
-        {
-            cout << fibonacciStack.pop() << endl;
-        }
+        return fibonacciGenerator(n -1) + fibonacciGenerator(n -2);
     };
 };
 
 int main()
 {
-    Abyaz_Lab03<int> stack;
-    cout << stack.pop() << endl;
-    cout << stack.isEmpty() << endl;
-    stack.push(10);
-    stack.push(20);
-    cout << stack.peek() << endl;
-    cout << stack.isEmpty() << endl;
-    cout << stack.size() << endl;
-    stack.display();
     return 0;
 }
-// // Second question
-// string word = "hello";
+// First Question
+    // Abyaz_Lab03<int> stack;
+    // cout << stack.pop() << endl;
+    // cout << "Is stack empty: " << boolalpha << stack.isEmpty() << endl;
+    // stack.push(10);
+    // stack.push(20);
+    // cout << "Stack's top: " << stack.peek() << endl;
+    // cout << "Is stack empty: " << boolalpha << stack.isEmpty() << endl;
+    // cout << "Stack size: " << stack.size() << endl;
+    // cout << "Displaying stack" << endl;
+    // stack.display();
 
-// // Third question
-// string word4 = "hello";
-// cout << Abyaz_Lab03<char>::reverseString(word4) << endl;
+// Second question
+    // string word;
+    // cout << "Enter word you want to reverse: ";
+    // cin >> word;
+    // cout << "Reversed Word: " << Abyaz_Lab03<char>::reverseString(word);
 
-// // Fourth question
-// string word2 = "dad";
-// cout << boolalpha << Abyaz_Lab03<char>::checkPalindrome(word2) << endl;
-// string word3 = "hello";
-// cout << boolalpha << Abyaz_Lab03<char>::checkPalindrome(word3) << endl;
+// Third question
+    // string word;
+    // cout << "Enter word to check whether its a palindrome or not: " << endl;
+    // cin >> word;
+    // cout << boolalpha << Abyaz_Lab03<char>::checkPalindrome(word) << endl;
 
-// // Fifth question
-// string s = "ab#c";
-// string t = "ad#c";
-// cout << boolalpha << Abyaz_Lab03<char>::stringComparison(s, t) << endl;
+// Fourth question
+    // string firstWord;
+    // string secondWord;
+    // cout << "Enter first word: ";
+    // cin >> firstWord;
+    // cout << "Enter second word: ";
+    // cin >> secondWord;
+    // cout << boolalpha << Abyaz_Lab03<char>::stringComparison(firstWord, secondWord) << endl;
 
-// // Sixth question
-// Abyaz_Lab03<int>::fibonacciGenerator(5);
-// return 0;
-// }
+// Fifth question
+    // int n;
+    // cout << "Enter number term you want in the series: ";
+    // cin >> n;
+    // Abyaz_Lab03<int> stack;
+    // for(int i = 1; i <= n; ++i){
+    //     stack.push(Abyaz_Lab03<int>::fibonacciGenerator(i));
+    // }
+    // while (!stack.isEmpty())
+    // {
+    //     cout << stack.pop() << " ";
+    // }
