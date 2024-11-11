@@ -27,7 +27,8 @@ public:
         }
         else
         {
-            top->next = newNode;
+            newNode->next = top;
+            top = newNode;
         }
     }
     T pop()
@@ -35,7 +36,7 @@ public:
         if (top == nullptr)
         {
             cout << "Stack is empty" << endl;
-            return;
+            return T();
         }
         T value = top->value;
         top = top->next;
@@ -44,9 +45,20 @@ public:
     void display()
     {
         Node *current = top;
-        while (current->next != nullptr)
+        while (current != nullptr)
         {
             cout << current->value << " ";
+            current = current->next;
         }
     }
 };
+
+int main()
+{
+    Stack<int> s;
+    s.push(10);
+    s.push(20);
+    s.push(30);
+    cout << s.pop() << endl;
+    s.display();
+}

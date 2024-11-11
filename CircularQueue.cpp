@@ -1,77 +1,128 @@
 #include <iostream>
 using namespace std;
 
-template <typename T>
+struct Node
+{
+    int data;
+    Node *next;
+    Node(int val) : data(val), next(nullptr) {}
+};
+
 class CircularQueue
 {
 private:
-    struct Node
-    {
-        T value = NULL;
-        Node *next = nullptr;
-    };
-    Node *head;
-    Node *tail;
+    Node *front;
+    Node *rear;
 
 public:
-    CircularQueue()
+    CircularQueue() : front(nullptr), rear(nullptr) {}
+
+    bool isEmpty()
     {
-        head = nullptr;
-        tail = nullptr;
+        return front == nullptr;
     }
-    ~CircularQueue()
+
+    void enqueue(int value)
     {
-        if (head != nullptr)
+        Node *newNode = new Node(value);
+
+        if (isEmpty())
         {
-            Node *counter = head;
-            while (counter != tail)
-            {
-                Node *temp = counter->next;
-                delete counter;
-                counter = temp;
-            }
-            delete counter;
-        }
-    }
-    void enqueue(T val)
-    {
-        Node *newNode = new Node();
-        newNode->value = val;
-        if (head == nullptr)
-        {
-            head = newNode;
-            tail = newNode;
+            front = rear = newNode;
+            rear->next = front;
         }
         else
         {
-            tail->next = newNode;
-            tail = newNode;
+            rear->next = newNode;
+            rear = newNode;
+            rear->next = front;
         }
-        tail->next = head;
+
+        cout << "Enqueued: " << value << endl;
     }
+
+    void dequeue()
+    {
+        if (isEmpty())
+        {
+            cout << "Queue is empty! Cannot dequeue." << endl;
+            return;
+        }
+
+        if (front == rear)
+        {
+            delete front;
+            front = rear = nullptr;
+        }
+        else
+        {
+            Node *temp = front;
+            front = front->next;
+            rear->next = front;
+            delete temp;
+        }
+
+        cout << "Dequeued from the front." << endl;
+    }
+
+    int peek()
+    {
+        if (isEmpty())
+        {
+            cout << "Queue is empty!" << endl;
+            return -1;
+        }
+        return front->data;
+    }
+
     void display()
     {
-        if (head != nullptr)
+        if (isEmpty())
         {
-            Node *counter = head;
-            while (counter != tail)
-            {
-                cout << counter->value;
-                counter = counter->next;
-            }
-            cout << counter->value;
+            cout << "Queue is empty!" << endl;
+            return;
         }
-        else
+
+        Node *temp = front;
+        cout << "Queue elements: ";
+        do
         {
-            cout << "Queue is empty";
+            cout << temp->data << " ";
+            temp = temp->next;
+        } while (temp != front);
+        cout << endl;
+    }
+
+    ~CircularQueue()
+    {
+        while (!isEmpty())
+        {
+            dequeue();
         }
     }
 };
+
 int main()
 {
-    CircularQueue<int> queue;
+    CircularQueue queue;
+
     queue.enqueue(10);
     queue.enqueue(20);
+    queue.enqueue(30);
+    queue.enqueue(40);
+
     queue.display();
+
+    queue.dequeue();
+    queue.display();
+
+    cout << "Front element: " << queue.peek() << endl;
+
+    queue.dequeue();
+    queue.dequeue();
+    queue.dequeue();
+
+    queue.dequeue();
+
     return 0;
 }
